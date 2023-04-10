@@ -1,1 +1,7 @@
-hello world
+commands 
+
+npm init -y
+npm i express node nodemon cors mongodb 
+
+pip install requests
+pip install BeatifulSoup4

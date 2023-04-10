@@ -1,0 +1,7 @@
+version: "3.9"
+services:
+  wtmdb:
+    image: "mongo:latest"
+    container_name: "wtmdb"
+    ports:
+      - "5010:27017"
