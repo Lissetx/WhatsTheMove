@@ -2,13 +2,14 @@ const express = require("express");
 var app = express();
 
 const authRouter = require("./routes/auth");
+const concertsRouter = require("./routes/concerts");
 //import 'package:flutter/material.dart';
 
 const { connectDatabase } = require("./db");
 port = 5050;
 
 app.use(authRouter);
-app.use(ConcertsRouter);
+app.use(concertsRouter);
 
 connectDatabase();
 
