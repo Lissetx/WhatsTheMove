@@ -35,6 +35,7 @@ concertsRouter.get('/api/concerts/:id', async (req, res) => {
 concertsRouter.post('/api/concerts', async (req, res) => {
     //call message queue 
     //check if user is an event organizer
+    
 });
 
 
