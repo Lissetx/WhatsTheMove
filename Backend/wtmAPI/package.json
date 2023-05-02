@@ -2,7 +2,7 @@
   "name": "wtmapi",
   "version": "1.0.0",
   "description": "",
-  "main": "db.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon app.js"
@@ -13,6 +13,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.2",
+    "kafkajs": "^2.2.4",
     "mongodb": "^5.2.0",
     "nodemon": "^2.0.22"
   }

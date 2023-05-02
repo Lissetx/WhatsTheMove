@@ -1,5 +1,29 @@
 version: "3.9"
 services:
+  whatsthemove:
+    restart: always
+    build: ../wtmAPI
+    container_name: whatsthemove
+    ports:
+      - "5051:5050"
+    depends_on:
+      - wtmdb
+    environment:
+      - apiport=5053
+      - BROKER_SERVER_ADDRESS=broker:29092
+      - WTM_TOPIC=WTM=Topic
+  whatsthemove2:
+    restart: always
+    build: ../wtmAPI
+    container_name: whatsthemove
+    ports:
+      - "5051:5050"
+    depends_on:
+      - wtmdb
+    environment:
+      - apiport=5053
+      - BROKER_SERVER_ADDRESS=broker:29092
+      - WTM_TOPIC=WTMTopic
   wtmdb:
     image: "mongo:latest"
     container_name: "wtmdb"
@@ -25,3 +49,22 @@ services:
       - KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=1
     depends_on:
       - zookeeper
+    ports:
+      - "9092:9092"
+  nginx:
+    build: ../nginx
+    ports:
+      - "5053:80"
+    depends_on:
+      - whatsthemove
+      - whatsthemove2
+  mqservice:
+    build: ../MQService
+    ports:
+      - "5054:5054"
+    depends_on:
+      - broker
+      - zookeeper
+      - whatsthemove
+      - whatsthemove2
+      - nginx
