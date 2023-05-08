@@ -37,7 +37,6 @@ services:
       - ZOOKEEPER_TICK_TIME=2000
   broker:
     restart: always
-    restart-delay: 10s
     image: confluentinc/cp-kafka:7.3.0
     container_name: broker
     environment:
@@ -65,6 +64,7 @@ services:
       - whatsthemove2
   mqservice:
     build: ../MQService
+    restart: always
     ports:
       - "5054:5054"
     depends_on:

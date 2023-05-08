@@ -1,5 +1,5 @@
 const connectConsumer = require('./consumer')
-const {createUser, loginUser, verifyUser, addInterested} = require('../wtmAPI/businesslogic')
+const {createUser, loginUser, verifyUser, addInterested} = require('./buisnesslogic.js')
 
 async function main() {
     console.log("Starting consumer")
