@@ -6,3 +6,5 @@ npm i express node nodemon cors mongodb
 pip install requests
 pip install BeatifulSoup4
 pip install fake-useragent
+
+docker compose -p wtmapi up --build --force-recreate -d

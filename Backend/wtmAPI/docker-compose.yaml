@@ -15,9 +15,9 @@ services:
   whatsthemove2:
     restart: always
     build: ../wtmAPI
-    container_name: whatsthemove
+    container_name: whatsthemove2
     ports:
-      - "5051:5050"
+      - "5052:5050"
     depends_on:
       - wtmdb
     environment:
@@ -37,6 +37,7 @@ services:
       - ZOOKEEPER_TICK_TIME=2000
   broker:
     restart: always
+    restart-delay: 10s
     image: confluentinc/cp-kafka:7.3.0
     container_name: broker
     environment:
@@ -49,6 +50,10 @@ services:
       - KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=1
     depends_on:
       - zookeeper
+      - wtmdb
+      - whatsthemove
+      - whatsthemove2
+      - nginx
     ports:
       - "9092:9092"
   nginx:
