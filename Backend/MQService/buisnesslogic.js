@@ -19,7 +19,7 @@ async function createUser(username, password, email, phone, userType) {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const result = await dbconnection.collection("Users").insertOne({ username: username, password: hashedPassword, email: email, phone: phone, userType: userType });
+    const result = await dbconnection.collection("Users").insertOne({ username: username, password: hashedPassword, email: email, phone: phone, userType: userType, interested: [] });
     return result.ops[0];
 }
 

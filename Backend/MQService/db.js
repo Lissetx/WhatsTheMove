@@ -1,7 +1,10 @@
 const MongoClient = require("mongodb").MongoClient;
 
-const uri = "mongodb://localhost:5010/"; //local testing
+//const uri = "mongodb://localhost:5010/"; //local testing
 //const uri = "mongodb://172.18.0.1:5010/"; //docker testing
+//const uri = "mongodb://172.20.0.3:5010/"; //docker testing
+const uri = "mongodb://wtmdb:27017/"; //docker testing
+
 
 const dbName = "WhatsTheMove";
 

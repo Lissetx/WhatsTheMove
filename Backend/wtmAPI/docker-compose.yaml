@@ -27,6 +27,8 @@ services:
   wtmdb:
     image: "mongo:latest"
     container_name: "wtmdb"
+    volumes:
+      - mongo_data:/data/db
     ports:
       - "5010:27017"
   zookeeper:
@@ -73,3 +75,5 @@ services:
       - whatsthemove
       - whatsthemove2
       - nginx
+volumes:
+  mongo_data:

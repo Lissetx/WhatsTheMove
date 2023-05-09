@@ -8,3 +8,6 @@ pip install BeatifulSoup4
 pip install fake-useragent
 
 docker compose -p wtmapi up --build --force-recreate -d
+
+find ip adress of the database container
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' wtmdb
