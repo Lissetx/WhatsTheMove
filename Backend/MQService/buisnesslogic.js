@@ -72,3 +72,5 @@ async function removeInterested(concertId, userId)
     const result = await dbconnection.collection("Users").updateOne({_id: userId}, {$pull: {interested: concertId}});
     return result;
 }
+
+module.exports = { createUser, loginUser, verifyUser, addInterested, removeInterested };
