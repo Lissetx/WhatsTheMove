@@ -8,19 +8,21 @@ const jwt = require("jsonwebtoken");
 //Request body: {username, password, email, phone, userType}
 //Response: {id, username, password, email, phone, userType}
 //Description: Adds a new user to the database
-async function createUser(username, password, email, phone, userType) {
+async function createUser(userData) {
+    
     const dbconnection = await db.connectDatabase();
-    const user = await dbconnection.collection("Users").findOne({ username: username });
+    const user = await dbconnection.collection("Users").findOne({ email: userData.email });
     //HASH THE PASSWORD 
-
+    //the email check should probably done before it gets to the method
+    //maybe in the producer
     if (user) {
-        throw new Error("Username already exists");
+        throw new Error("Email already exists");
     }
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const hashedPassword = await bcrypt.hash(userData.password, salt);
 
-    const result = await dbconnection.collection("Users").insertOne({ username: username, password: hashedPassword, email: email, phone: phone, userType: userType, interested: [] });
-    return result.ops[0];
+    const result = await dbconnection.collection("Users").insertOne({ email: userData.email, password: hashedPassword,  userType: userData.userType, interested: [] });
+    return result;
 }
 
 async function loginUser(email, password)

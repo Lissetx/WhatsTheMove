@@ -24,12 +24,18 @@ authRouter.get('/api/users/:id', async (req, res) => {
     res.send(user);
 });
 
+//TEST GET , return a message
+authRouter.get('/api/users', async (req, res) => {
+    res.send("Hello World");
+});
+
 authRouter.post('/api/register', async (req, res) => {
     "Name , email, password, and user type are required"
+    console.log(req.body);
     const { name, email, password, userType } = req.body;
     //send to message queue
     try{
-        await connectProducer("register", {name, email, password, userType})
+        await connectProducer("register", req.body)
          const user = req.body;
          res.status(201).send(user);
     }catch(error)

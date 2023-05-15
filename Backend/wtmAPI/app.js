@@ -8,6 +8,8 @@ const concertsRouter = require("./routes/concerts");
 const { connectDatabase } = require("./db");
 port = 5050;
 
+app.use(express.json());
+
 app.use(authRouter);
 app.use(concertsRouter);
 

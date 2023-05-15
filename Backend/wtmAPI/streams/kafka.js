@@ -9,7 +9,7 @@ const kafka = new Kafka({
 
 const producer = kafka.producer()
 
-async function connectProducer() {
+async function connectProducer(apiEvent, apiData) {
     await producer.connect()
     console.log("Connected to producer")
     producer.send({

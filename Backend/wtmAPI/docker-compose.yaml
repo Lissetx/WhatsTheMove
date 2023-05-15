@@ -11,7 +11,7 @@ services:
     environment:
       - apiport=5053
       - BROKER_SERVER_ADDRESS=broker:29092
-      - WTM_TOPIC=WTM=Topic
+      - WTM_TOPIC=WTMTopic
   whatsthemove2:
     restart: always
     build: ../wtmAPI
