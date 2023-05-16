@@ -1,5 +1,6 @@
 const db = require("./db");
 const bcrypt = require("bcryptjs");
+const { ObjectId } = require('mongodb');
 const jwt = require("jsonwebtoken");
 
 
@@ -11,13 +12,7 @@ const jwt = require("jsonwebtoken");
 async function createUser(userData) {
     
     const dbconnection = await db.connectDatabase();
-    const user = await dbconnection.collection("Users").findOne({ email: userData.email });
-    //HASH THE PASSWORD 
-    //the email check should probably done before it gets to the method
-    //maybe in the producer
-    if (user) {
-        throw new Error("Email already exists");
-    }
+    
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(userData.password, salt);
 
@@ -25,54 +20,25 @@ async function createUser(userData) {
     return result;
 }
 
-async function loginUser(email, password)
-{
-    const dbconnection = await db.connectDatabase();
-    const user = await dbconnection.collection("Users").findOne({ email: email });
-    if(!user)
-    {
-        throw new Error("Email does not exist");
-    }
-    const validPassword = await bcrypt.compare(password, user.password);
-    if(!validPassword)
-    {
-        throw new Error("Invalid password");
-    }
-    //create and assign a token
-    const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
-    return token;
-}
 
-async function verifyUser(token)
-{
-    const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
-    return decoded;
-}
 
 /////CONCERTS/////
-async function addInterested(concertId, userId)
+async function addInterested(data)
 {
     const dbconnection = await db.connectDatabase();
-    const user = await dbconnection.collection("Users").findOne({ _id: userId });
-    if(!user)
-    {
-        throw new Error("User does not exist");
-    }
-    const result = await dbconnection.collection("Users").updateOne({_id: userId}, {$addToSet: {interested: concertId}});
+    //print out JSON data
+    console.log(data);
+    const result = await dbconnection.collection("Users").updateOne({_id: new ObjectId(data.userId)}, {$addToSet: {interested: new ObjectId(data.concertId)}});
     return result;
 }
 
 
-async function removeInterested(concertId, userId)
+async function removeInterested(data)
 {
     const dbconnection = await db.connectDatabase();
-    const user = await dbconnection.collection("Users").findOne({ _id: userId });
-    if(!user)
-    {
-        throw new Error("User does not exist");
-    }
-    const result = await dbconnection.collection("Users").updateOne({_id: userId}, {$pull: {interested: concertId}});
+    console.log(data);
+    const result = await dbconnection.collection("Users").updateOne({_id: new ObjectId(data.userId)}, {$pull: {interested: new ObjectId(data.concertId)}});
     return result;
 }
 
-module.exports = { createUser, loginUser, verifyUser, addInterested, removeInterested };
+module.exports = { createUser, addInterested, removeInterested };

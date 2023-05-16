@@ -1,5 +1,5 @@
 const connectConsumer = require('./consumer')
-const {createUser, loginUser, verifyUser, addInterested} = require('./buisnesslogic.js')
+const {createUser, addInterested, removeInterested} = require('./buisnesslogic.js')
 
 async function main() {
     console.log("Starting consumer")
@@ -13,12 +13,6 @@ function handleEvent(message) {
     {
         case "register":
             createUser(data);
-            break;
-        case "login":
-            loginUser(data);
-            break;
-        case "verify":
-            verifyUser(data);
             break;
         case "interested":
             addInterested(data);

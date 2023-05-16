@@ -1,7 +1,7 @@
 const db = require("../db");
 const express = require("express");
 const { ObjectId } = require('mongodb');
-
+const { connectProducer } = require("../streams/kafka");
 
 const concertsRouter = express.Router();
 
@@ -46,20 +46,16 @@ concertsRouter.get('/api/concerts/interested/:id', async (req, res) => {
 });
 
 
-//POST a new concert to the database
-concertsRouter.post('/api/concerts', async (req, res) => {
-    //call message queue 
-    //check if user is an event organizer
 
-});
 
 concertsRouter.put('/api/concerts/interested', async (req, res) => {
-    //need to verify user token //hanle this in the front end
+    //need to verify user token //handle this in the front end
     //call verify first then call interested if verified
     //call message queue
     //add user to concert's interested list
+    
     try{
-        await connectProducer("interested", {concertId, userId})
+        await connectProducer("interested", req.body)
          const user = req.body;
          res.status(200).send(user);
     }catch(error)
@@ -71,12 +67,13 @@ concertsRouter.put('/api/concerts/interested', async (req, res) => {
 
 //uninterested in a concert
 concertsRouter.patch('/api/concerts/uninterested', async (req, res) => {
-    //need to verify user token //hanle this in the front end
+    //need to verify user token //handle this in the front end
     //call verify first then call interested if verified
     //call message queue
     //remove user from concert's interested list
+    
     try{
-        await connectProducer("uninterested", {concertId, userId})
+        await connectProducer("uninterested", req.body)
          const user = req.body;
          res.status(200).send(user);
     }catch(error)
