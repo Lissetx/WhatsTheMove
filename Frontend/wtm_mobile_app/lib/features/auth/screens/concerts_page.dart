@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import 'package:url_launcher/url_launcher.dart' as launcher;
+
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -13,7 +16,8 @@ class _ConcertsScreenState extends State<ConcertsScreen> {
   List<dynamic> concerts = [];
 
   Future<void> fetchConcerts() async {
-    final response = await http.get(Uri.parse('http://10.0.2.2:5053/api/concerts'));
+    final response =
+        await http.get(Uri.parse('http://10.0.2.2:5053/api/concerts'));
     if (response.statusCode == 200) {
       setState(() {
         concerts = jsonDecode(response.body);
@@ -65,7 +69,8 @@ class ConcertDetailsScreen extends StatelessWidget {
   ConcertDetailsScreen({required this.id});
 
   Future<Map<String, dynamic>> fetchConcertDetails() async {
-    final response = await http.get(Uri.parse('http://10.0.2.2:5053/api/concerts/$id'));
+    final response =
+        await http.get(Uri.parse('http://10.0.2.2:5053/api/concerts/$id'));
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
@@ -102,7 +107,9 @@ class ConcertDetailsScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  Text(title,
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                   SizedBox(height: 10),
                   Text(readableDate),
                   SizedBox(height: 10),
@@ -113,9 +120,15 @@ class ConcertDetailsScreen extends StatelessWidget {
                   Text('Venue: $venue'),
                   SizedBox(height: 10),
                   ElevatedButton(
-                    onPressed: () {
-                      // Open ticket link in browser
-                      // You can use the url_launcher package for this
+                    onPressed: () async {
+                      final url = concertDetails['ticket_link'];
+                      if (url != null && await launcher.canLaunch(url)) {
+                        // Remove the trailing question mark if present
+                        final sanitizedUrl = url.replaceAll('?', '');
+                        await launcher.launch(sanitizedUrl);
+                      } else {
+                        throw 'Could not launch $url';
+                      }
                     },
                     child: Text('Buy Tickets'),
                   ),
