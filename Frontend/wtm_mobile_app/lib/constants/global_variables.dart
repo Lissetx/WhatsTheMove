@@ -10,3 +10,19 @@ class GlobalVariables{
   );
   static const backgroundColor = Color.fromARGB(255, 123, 123, 123);
 }
+
+class ApiConstants{
+  static String baseurl = "http://localhost:5053/api";
+  static String login = "/login";
+  static String register = "/register";
+  static String verify = "/verify";
+  static String concerts = "/concerts";
+  static String interestred = "/concerts/interested/";
+  //get concerts/interested/{id}
+  static String uninterested = "/concerts/uninterested/";
+
+  static String userId ="";
+}
+
+
+
