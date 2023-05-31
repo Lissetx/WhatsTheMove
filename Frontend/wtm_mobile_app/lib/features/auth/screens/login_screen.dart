@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:wtm_mobile_app/constants/global_variables.dart';
-//import http
+import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:wtm_mobile_app/features/auth/screens/concerts_page.dart';
+import 'package:wtm_mobile_app/providers/auth_provider.dart';
+
 
 class AuthScreen extends StatefulWidget{
   static const String routeName = '/login';
@@ -52,9 +54,12 @@ class _AuthScreenState extends State<AuthScreen>{
   );
       if (response.statusCode == 200) {
         // Successful login
-        String userId = response.body; // Assuming the API returns the user ID
-        // Save the user ID in session storage or any other persistent storage method
-      
+        Map<String, dynamic> responseData = jsonDecode(response.body);
+         String userId = responseData['_id'];
+      String token = responseData['token'];
+
+      // Save the user ID and token in the AuthProvider
+      Provider.of<AuthProvider>(context, listen: false).setUser(userId, token);
         // Redirect the user to the home screen
         Navigator.pushReplacementNamed(context, ConcertsScreen.routeName);
       } else {

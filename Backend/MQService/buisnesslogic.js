@@ -23,14 +23,17 @@ async function createUser(userData) {
 
 
 /////CONCERTS/////
-async function addInterested(data)
-{
+async function addInterested(data) {
     const dbconnection = await db.connectDatabase();
-    //print out JSON data
+    // Print out JSON data
     console.log(data);
-    const result = await dbconnection.collection("Users").updateOne({_id: new ObjectId(data.userId)}, {$addToSet: {interested: new ObjectId(data.concertId)}});
+    const result = await dbconnection.collection("Users").updateOne(
+      { _id: new ObjectId(data.userId), interested: { $nin: [new ObjectId(data.concertId)] } },
+      { $addToSet: { interested: new ObjectId(data.concertId) } }
+    );
     return result;
-}
+  }
+  
 
 
 async function removeInterested(data)

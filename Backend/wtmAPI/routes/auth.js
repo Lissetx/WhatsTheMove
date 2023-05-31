@@ -61,6 +61,7 @@ authRouter.post('/api/login', async (req, res) => {
     const { email, password } = req.body;
     //send to message queue
     const user = await dbconnection.collection("Users").findOne({ email: req.body.email });
+    
     if(!user)
     {
         //user does not exist
@@ -72,9 +73,13 @@ authRouter.post('/api/login', async (req, res) => {
         return res.status(400).send("Invalid password");
     }
     try{
+        const userId = new ObjectId(user._id);
          //create and assign a token
+         //create json with user id and token to send back
+
         const token = "verified";
-         res.status(200).send(token);
+        
+        res.status(200).json({_id: userId, token: token});
     }catch(error)
     {
         console.log(error);

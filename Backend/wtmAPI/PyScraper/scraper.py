@@ -13,6 +13,7 @@ mycol = mydb["Concerts"]
 ua = UserAgent()
 st = time.time()
 
+mycol.delete_many({})
 
 
 print('Scraping Songkick...')
@@ -76,7 +77,14 @@ while has_next_page:
             readable_date = ""
         else:
             readable_date = readable_date.text
-       
+        
+        image_wrapper = event_soup.find('div', {'class': 'profile-picture-wrapper'})
+        if image_wrapper is not None:
+            image_link = image_wrapper.find('img')['src']
+        else:
+             image_wrapper = event_soup.find('div', {'class': 'profile-picture-wrap'})
+             image_link = image_wrapper.find('img')['src']
+
         title = event_soup.find('h1', {'class': 'h0 summary'})
         #if no title is found find class h0 instead
         if title is None:
@@ -142,6 +150,7 @@ while has_next_page:
             "location": venue_name + ", " + city_name, #works
             "ticket_link": ticket_link,
             "venue": venue, #works
+            "image_link": image_link
         }
         
         #print the JSON object
@@ -160,6 +169,7 @@ while has_next_page:
         print('Readable Date:', readable_date)
         print('location:', venue_name + ", " + city_name)
         print('Ticket Link:', ticket_link)
+        print('Image Link:', image_link)
     
     page_number += 1
     print("PAGE COUNT /////////////////////////////////////////////////////////////////////////////////////////" + str(page_number))
