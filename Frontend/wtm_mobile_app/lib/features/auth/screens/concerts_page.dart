@@ -50,7 +50,7 @@ class _ConcertsScreenState extends State<ConcertsScreen> {
   void navigateToInterestedPage(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final userId = authProvider.userId;
-    if (userId != null ) {
+    if (userId != null) {
       Navigator.pushNamed(context, InterestedScreen.routeName);
     } else {
       showDialog(
@@ -278,12 +278,30 @@ class ConcertDetailsScreen extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () async {
                       final url = concertDetails['ticket_link'];
-                      if (url != null && await launcher.canLaunch(url)) {
+                      if (concertDetails['ticket_link'] != null &&
+                          await launcher.canLaunch(url)) {
                         // Remove the trailing question mark if present
                         final sanitizedUrl = url.replaceAll('?', '');
                         await launcher.launch(sanitizedUrl);
                       } else {
-                        throw 'Could not launch $url';
+                           showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Ticket Unavailable'),
+                              content: Text(
+                                  'Tickets are not available for this concert. Check back later.'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
                       }
                     },
                     child: Text('Buy Tickets'),
