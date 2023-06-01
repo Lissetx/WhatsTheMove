@@ -1,5 +1,5 @@
 # WhatsTheMove
-Whats The Move is a simplstic mobile applicationt that allows you to save and view concerts in the Salt Lake Area
+Whats The Move is a simplstic mobile application that allows you to save and view concerts in the Salt Lake Area
 ![Screenshot 2023-06-01 093307](https://github.com/Lissetx/WhatsTheMove/assets/98356241/3df4f311-51be-457a-9d51-3fa2e800f5d7)
 
 ![Screenshot 2](https://github.com/Lissetx/WhatsTheMove/assets/98356241/bd31c4f8-3ac7-43d9-9a57-52fb02ad3001)
